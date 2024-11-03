@@ -1,0 +1,85 @@
+$nova-green: #A8CE93;
+$nova-red: #DF8C8C;
+
+.sw {
+  max-width: 320px;
+  margin: 32px auto;
+  border-radius: 8px;
+  background-color: #222;
+  border: 1px solid #000;
+  padding: 8px;
+  color: #eee;
+
+  &__body {
+    padding: 8px;
+  }
+
+  &__btns {
+    padding: 8px;
+  }
+
+  &__timer {
+    padding: 0 8px;
+  }
+
+  &__laps {
+    padding: 8px;
+  }
+
+  @media screen and (min-width: 600px) {
+    & {
+      max-width: 600px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      &__body {
+        flex: 1;
+      }
+
+      &__laps {
+        align-self: flex-end;
+      }
+    }
+  }
+}
+
+.sw-time {
+  font-size: 32px;
+
+  &--long {
+    font-size: 24px;
+  }
+}
+
+.sw-laps {
+  list-style: none;
+
+  &__lap {
+    padding-top: 4px;
+  }
+}
+
+.sw-btn {
+  margin-right: 4px;
+
+  &:hover {
+    border-color: rgba(0,0,0,0.3);
+  }
+
+  &--start {
+    background-color: $nova-green;
+  }
+
+  &--stop {
+    background-color: $nova-red;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+
+    &:hover {
+      border-color: transparent;
+    }
+  }
+}
