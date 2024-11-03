@@ -1,31 +1,13 @@
 import { useCallback, useState, useRef } from 'react';
+import { formatElapsedTime } from './format';
 import './watch.scss';
-
-function twoDigit(num: number): string {
-  return (`0${num}`).slice(-2)
-}
-
-function formatElapsedTime(ms: number) {
-  const sec = ms / 1000;
-  const min = sec / 60;
-
-  const stamp = `${twoDigit(min % 60)}:${twoDigit(sec % 60)}.${twoDigit(ms % 1000)}`;
-
-  if (min < 60) {
-    return stamp;
-  }
-
-  return `${Math.floor(min / 60)}${stamp}`;
-}
-
-export function Lap() {
-}
 
 export function Watch() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
   const [laps, setLaps] = useState<number[]>([]);
   const elapsed = useRef<number>(0);
+  const lapTotal = useRef<number>(0);
   const started = useRef<number | null>(null);
   const lastUpdate = useRef<number | null>(null);
 
@@ -35,7 +17,7 @@ export function Watch() {
     }
     const last = lastUpdate.current;
     const now = Date.now();
-    setElapsedTime(elapsed.current = (now - last));
+    setElapsedTime(elapsed.current = elapsed.current + (now - last));
     lastUpdate.current = now;
     requestAnimationFrame(updateElapsedTime);
   }, [elapsed, lastUpdate, setElapsedTime, started]);
@@ -54,9 +36,10 @@ export function Watch() {
   }, [lastUpdate, setIsStarted, started, updateElapsedTime]);
 
   const onAddLap = useCallback(() => {
-    setLaps(prevLaps => [...prevLaps, elapsed.current]);
-    setElapsedTime(elapsed.current = 0);
-  }, [elapsed, setLaps]);
+    const time = elapsed.current - lapTotal.current;
+    lapTotal.current += time;
+    setLaps(prevLaps => [...prevLaps, time]);
+  }, [elapsed, lapTotal, setLaps]);
 
   const onReset = useCallback(() => {
     setElapsedTime(elapsed.current = 0);
