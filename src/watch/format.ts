@@ -2,6 +2,17 @@ export function padDigit(num: number, z: number = 2): string {
   return (`00${num}`).slice(-z)
 }
 
+const cutToHours = 11;
+const cutToMins = 14;
+
+const msInHrs = 1000 * 60 * 60;
+
+// "simple" conversion
+export function formatTime(t: number) {
+  return new Date(t).toISOString().slice(t / msInHrs > 1 ? cutToHours : cutToMins, -2);
+}
+
+// "fast" conversion
 export function formatElapsedTime(t: number) {
   let s = t;
   const ms = t % 1000;

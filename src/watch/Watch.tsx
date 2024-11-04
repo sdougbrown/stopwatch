@@ -1,5 +1,5 @@
 import { useCallback, useState, useRef } from 'react';
-import { formatElapsedTime } from './format';
+import { formatTime as formatElapsedTime } from './format';
 import './watch.scss';
 
 export function Watch() {
